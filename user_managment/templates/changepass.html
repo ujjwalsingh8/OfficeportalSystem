@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block hero %}
+{% endblock hero %}
+
+{% block newpage %}
+    <form class="form-inline">
+
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+{% block content %}
+<form action="" method="POST" class='mt-5' style="max-width: 400px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding-top: 80px;">
+    {% csrf_token %}
+    
+    {% for data in form %}
+        <div style="margin-bottom: 15px;">
+            {{ data.label_tag }} 
+            <div style="margin-bottom: 5px;">
+                {{ data }}
+            </div>
+            <div style="color: red; font-size: 12px;">
+                {{ data.errors }}
+            </div>
+        </div>
+    {% endfor %}
+
+    <input type="submit" value="Submit" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; width: 100%; margin-top: 20px;">
+</form>
+
+{% endblock content %}

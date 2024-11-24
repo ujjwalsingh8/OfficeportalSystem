@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block hero %}
+{% endblock hero %}
+
+{% block newpage %}
+    <form class="form-inline">
+
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+{% block content %}
+    <h2 style="padding-top: 90px;" class="container d-flex flex-column justify-content-center align-items-center">Approve Users</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <div style="width: 80%; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th style="padding: 12px; text-align: left; background-color: #4CAF50; color: white; border: 1px solid #ddd;">Select</th>
+                    <th style="padding: 12px; text-align: left; background-color: #4CAF50; color: white; border: 1px solid #ddd;">Username</th>
+                    <th style="padding: 12px; text-align: left; background-color: #4CAF50; color: white; border: 1px solid #ddd;">Role</th>
+                    <th style="padding: 12px; text-align: left; background-color: #4CAF50; color: white; border: 1px solid #ddd;">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td style="padding: 12px; text-align: left; border: 1px solid #ddd;"><input type="checkbox" name="approve" value="{{ user.id }}" style="width: 20px; height: 20px;"></td>
+                    <td style="padding: 12px; text-align: left; border: 1px solid #ddd;">{{ user.user.username }}</td>
+                    <td style="padding: 12px; text-align: left; border: 1px solid #ddd;">{{ user.role }}</td>
+                    <td style="padding: 12px; text-align: left; border: 1px solid #ddd;">{{ user.user.email }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-success" style="text-align: center; margin-top: 30px;">Approve Selected Users</button>
+    </div>
+</form>
+{% endblock content %}

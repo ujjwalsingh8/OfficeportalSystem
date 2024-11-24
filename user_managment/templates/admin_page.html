@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block hero %}
+{% endblock hero %}
+
+{% block newpage %}
+    <form class="form-inline">
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'chnagepass' %}">Change Password</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+
+{% block content %}
+<div style="display: flex; justify-content: center; width: 80%; margin: 20px auto; padding-top: 80px;">
+    <!-- Search Form -->
+    <form method="get" action="" style="margin-bottom: 10px; display: flex; gap: 2px;">
+        <input type="text" name="search" value="{{ search_query }}" placeholder="Search by email, username, or role" style="padding: 10px; width: 300px;">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<div style="display: flex; justify-content: center; width: 80%; margin: 20px auto; border: 1px solid #ddd;  ">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #4CAF50; color: white; text-align: center;">
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- For Manager List -->
+            {% for data in manager_list %}
+                <tr>
+                    <td style="text-align: center; padding: 8px;">{{ data.id }}</td>
+                    <td style="text-align: center; padding: 8px;">{{ data.username }}</td>
+                    <td style="text-align: center; padding: 8px;">{{ data.email }}</td>
+                    <td style="text-align: center; padding: 8px;">{{ data.first_name }}</td>
+                    <td style="text-align: center; padding: 8px;">{{ data.last_name }}</td>
+                    <td style="text-align: center; padding: 8px;">Manager</td>
+                    <td style="text-align: center; padding: 8px;">
+                        <!-- Action Buttons -->
+                        <div style="display: flex; justify-content: center; gap: 10px;">
+                            <a class="btn btn-primary" href="{% url 'update' data.id %}">Update</a>
+                            <a class="btn btn-danger" href="{% url 'delete' data.id %}">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            <!-- For Employees List -->
+            {% for data in employees %}
+                <tr>
+                    <td style="text-align: center; padding: 8px;">{{ data.id }}</td>
+                    <td style="text-align: center; padding: 8px;">{{ data.username }}</td>
+                    <td style="text-align: center; padding: 8px;">{{ data.email }}</td>
+                    <td style="text-align: center; padding: 8px;">{{ data.first_name }}</td>
+                    <td style="text-align: center; padding: 8px;">{{ data.last_name }}</td>
+                    <td style="text-align: center; padding: 8px;">Employee</td>
+                    <td style="text-align: center; padding: 8px;">
+                        <!-- Action Buttons -->
+                        <div style="display: flex; justify-content: center; gap: 10px;">
+                            <a class="btn btn-primary" href="{% url 'update' data.id %}">Update</a>
+                            <a class="btn btn-danger" href="{% url 'delete' data.id %}">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="display: flex; justify-content: center;">
+     <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'admin_approval' %}">Approve For Login</a>
+    {% comment %} <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'manager_task' %}">Assign Task</a>
+    <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'manager_view' %}">View Task Update</a>
+    <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'daily_status_view' %}">Employee Daily Status</a> {% endcomment %} 
+</div>
+
+<div>
+  <span style="display: flex; justify-content: center; align-items: center;">
+    {% if employees.has_previous %}
+        <a href="?page={{ employees.previous_page_number }}&search={{ search_query }}" style="margin-right: 5px; text-decoration: none; color: blue;">Previous</a>
+    {% endif %}
+    
+    <span style="margin: 0 5px; font-weight: bold;">{{ employees.number }}</span>
+    
+    {% if employees.has_next %}
+        <a href="?page={{ employees.next_page_number }}&search={{ search_query }}" style="margin-left: 5px; text-decoration: none; color: blue;">Next</a>
+    {% endif %}
+  </span>
+</div>
+
+
+
+{% endblock content %}
