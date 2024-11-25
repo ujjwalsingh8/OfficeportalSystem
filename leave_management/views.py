@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
-from leave_management.models import LeaveAppication
-from leave_management.forms import LeaveApplicationsForm
+from django.utils import timezone
+from leave_management.models import LeaveAppication, CheckInCheckOut, DailyStatus
+from leave_management.forms import LeaveApplicationsForm, CheckInCheckOutForm, DailyStatusForm
 # Create your views here.
 
 #--------------emaployees leave----------
@@ -93,3 +94,63 @@ def send_leave_email(leave_application, status):
     subject = f"Your Leave Application has been {status}"
     message = f"Hello {leave_application.user.username},Your leave application from {leave_application.start_date} to {leave_application.end_date} has been {status}.Thank you,Your Company"
     send_mail(subject, message, 'thecode8228@gmail.com', {leave_application.user.email},)
+
+
+#------------Daily Status----------------
+
+@login_required(login_url='login')
+def daily_status(request):
+    if request.user.main_user.role == 'Employees':
+        if request.method == 'POST':
+            data = DailyStatusForm(request.POST)
+            if data.is_valid():
+                user_status = data.save(commit=False)
+                user_status.user = request.user
+                user_status.save()
+                return redirect('login')
+        else:
+            data = DailyStatusForm()
+
+        return render(request, 'dailystatus.html', {'form':data})
+    else:
+        return redirect('login')
+    
+#---------------Daily Status View---------------
+
+@login_required(login_url='login')
+def daily_status_view(request):
+    if request.user.is_superuser or request.user.main_user.role == 'Manager' or request.user.main_user.role == 'Employees':
+        status = DailyStatus.objects.filter(user=request.user)        
+
+    elif request.user.main_user.role == 'Manager':
+        status = DailyStatus.objects.all()
+    else:
+        return redirect('login')
+    return render(request, 'dailystatusveiw.html', {'status': status})
+
+
+
+@login_required(login_url='login')
+def check_in(request):
+    record = CheckInCheckOut.objects.filter(user=request.user, check_out_time__isnull=True).first()
+    if record:
+        messages.info(request, "You are already checked in!")   
+    else:
+        check_in_record = CheckInCheckOut(user=request.user)
+        check_in_record.check_in_time = timezone.now()
+        check_in_record.save()
+        messages.success(request, "You have successfully checked in.")
+    return redirect('login')
+
+
+@login_required(login_url='login')
+def check_out(request):
+    check_in_record = CheckInCheckOut.objects.filter(user=request.user, check_out_time__isnull=True).first()
+    if not check_in_record:
+        messages.error(request, "check in first before checking out.")
+    else:
+        check_in_record.check_out_time = timezone.now()
+        check_in_record.calculate_total_hours()
+        check_in_record.save()
+        messages.success(request, "You are checked out.")
+    return redirect('login')

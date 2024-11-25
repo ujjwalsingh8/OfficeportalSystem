@@ -42,7 +42,7 @@
             </ul>
             {% endif %}
 
-    {% comment %} {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
         {% if user_check_in %}
             <form method="post" action="{% url 'check_out' %}">
                 {% csrf_token %}
@@ -54,13 +54,13 @@
                 <button class="btn btn-success mb-3"  type="submit">Check In</button>
             </form>
         {% endif %}
-    {% endif %} {% endcomment %}
+    {% endif %}
     <a class="btn btn-success" href="{% url 'update_profile' profile.id %}">Update Profile Photo</a>
     <a class="btn btn-success" href="{% url 'leave' %}">Leave</a>
     <a class="btn btn-success" href="{% url 'leavestatus' %}">Leave Status</a>
     <a class="btn btn-success" href="{% url 'task_view' %}">New Task</a>
-    {% comment %} <a class="btn btn-success" href="{% url 'daily_status' %}">Update Daily Status</a>
-    <a class="btn btn-success" href="{% url 'daily_status_view' %}">Your Daily Status</a> {% endcomment %} 
+    <a class="btn btn-success" href="{% url 'daily_status' %}">Update Daily Status</a>
+    <a class="btn btn-success" href="{% url 'daily_status_view' %}">Your Daily Status</a> 
 </div>
 </div>
 {% endblock content %}

@@ -76,7 +76,7 @@
         </table>
     {% endif %}
 
-{% comment %} 
+
 {% if user.is_authenticated %}
     {% if user_check_in %}
         <form method="post" action="{% url 'check_out' %}">
@@ -89,12 +89,12 @@
             <button class="btn btn-success mb-3" type="submit">Check In</button>
         </form>
     {% endif %}
-{% endif %} {% endcomment %}
+{% endif %}
 
 <a class="btn btn-success" href="{% url 'update_profile' profile.id %}">Update Profile Photo</a>
 <a class="btn btn-success" href="{% url 'manager_task' %}">Assigne Task</a>
 <a class="btn btn-success" href="{% url 'manager_view' %}">View Task Update</a>
-{% comment %}<a class="btn btn-success" href="{% url 'daily_status_view' %}">Employee Daily Status</a> {% endcomment %}
+<a class="btn btn-success" href="{% url 'daily_status_view' %}">Employee Daily Status</a>
 </div>
 
 </div>

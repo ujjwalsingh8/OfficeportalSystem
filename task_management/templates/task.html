@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block hero %}
+{% endblock hero %}
+
+{% block newpage %}
+    <form class="form-inline">
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'chnagepass' %}">Change Password</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+
+{% block content %}
+<div style='padding-top: 80px;'>
+<h1 style="text-align: center; font-family: Arial, sans-serif; color: #333; margin: 20px;">Task Assigne</h1>
+
+<form action="" method="post" style="max-width: 600px; margin: 60px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    {% csrf_token %}
+    
+    <div style="margin-bottom: 15px;">
+        {{form.as_p}}
+    </div>
+
+    <input type="submit" value="Submit" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-size: 1em; width: 100%;">
+</form>
+
+</div>
+{% endblock content %}
