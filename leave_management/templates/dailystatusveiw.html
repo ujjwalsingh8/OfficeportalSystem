@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block hero %}
+{% endblock hero %}
+
+
+{% block newpage %}
+    <form class="form-inline">
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'chnagepass' %}">Change Password</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+{% block content %}
+
+  <div style="font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f4; padding-top: 80px;">
+
+    <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); width: 100%; max-width: 750px;">
+        <h1 style="text-align: center; color: #333; margin-bottom: 15px">Employee Daily Status Reports</h1>
+
+        {% for data in status %}
+            <div style="margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #fafafa;">
+                <p style="font-size: 16px; color: #333;">
+                    <strong>Employee Name:</strong> {{ data.user.username }}
+                </p>
+                <p style="font-size: 16px; color: #555;">
+                    <strong>Date of Report:</strong> {{ data.report_date }}
+                </p>
+                <p style="font-size: 16px; color: #666;">
+                    <strong>Report Status:</strong> {{ data.status }}
+                </p>
+            </div>
+        {% endfor %}
+    </div></div>
+    
+{% endblock content %}

@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Profile
+from leave_management.models import CheckInCheckOut
 from .forms import SignUpForm, ProfileUpdateForm, ProfileUpdate
 # Create your views here.
 
@@ -145,8 +146,10 @@ def manager_home(request):
     if request.user.main_user.role == 'Manager':
         user = request.user
         profile = get_object_or_404(Profile, user=user)
+        
+        user_check_in = CheckInCheckOut.objects.filter(user=request.user, check_out_time__isnull=True).exists()
 
-        return render(request, 'manager_home.html', {'profile': profile})
+        return render(request, 'manager_home.html', {'profile': profile, 'user_check_in': user_check_in})
     else:
         return redirect('login')
     
@@ -159,8 +162,9 @@ def employees_home(request):
     if request.user.main_user.role == 'Employees':
         user = request.user
         profile = get_object_or_404(Profile, user=user)
-
-        return render(request, 'employees_home.html', {'profile': profile})
+        
+        user_check_in = CheckInCheckOut.objects.filter(user=request.user, check_out_time__isnull=True).exists()
+        return render(request, 'employees_home.html', {'profile': profile, 'user_check_in': user_check_in})
 
     else:
         return redirect('login')
@@ -192,7 +196,7 @@ def update_profile(request, id):
 
 @login_required(login_url='login')
 def update_image(request, id):
-    profile = get_object_or_404(User, pk=id)
+    profile = get_object_or_404(Profile, pk=id)
     if request.method == 'POST':
         form = ProfileUpdate(request.POST, request.FILES, instance=profile)
         if form.is_valid():

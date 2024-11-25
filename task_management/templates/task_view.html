@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block hero %}
+{% endblock hero %}
+
+{% block newpage %}
+    <form class="form-inline">
+        <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'chnagepass' %}">Change Password</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+{% block content %}
+<div style='padding-top: 80px;'>
+<h1 style="text-align: center; font-family: Arial, sans-serif; color: #333; margin: 20px;">Task List</h1>
+
+{% if tasks %}
+    {% for task in tasks %}
+        <div class="task-card" style="text-align: center; border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+            <h3 style="font-size: 1.5em; margin-bottom: 10px; color: #4CAF50;">Task Title: {{ task.task_title }}</h3>
+            <p style="font-size: 1em; color: #555;">Task Description: {{ task.task_description }}</p>
+            <p style="font-weight: bold; color: #555;">Status: <span style="color: {% if task.status == 'Completed' %}green{% elif task.status == 'In Progress' %}orange{% else %}red{% endif %};">{{ task.status }}</span></p>
+            <p style="font-weight: bold; color: #555;">Assigned by: {{ task.assigned_by.username }}</p>
+
+            <form method="POST" style="margin-top: 20px;">
+                {% csrf_token %}
+                <input type="hidden" name="task_id" value="{{ task.id }}">
+
+                <label for="status" style="font-weight: bold; color: #333; display: block; margin-bottom: 8px;">Update Status:</label>
+                <select name="status" required 
+                        {% if task.status == 'Completed' %}disabled{% endif %}
+                        style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; width: 50%; margin-bottom: 15px; font-size: 1em;">
+                    <option value="Pending" {% if task.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="In Progress" {% if task.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                    <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+                </select>
+
+                <textarea name="comment" placeholder="Add a comment..." rows="4" cols="50" 
+                          {% if task.status == 'Completed' %}disabled{% endif %}
+                          style="padding: 10px; width: 80%; border-radius: 4px; border: 1px solid #ccc; font-size: 1em; margin-bottom: 15px;"></textarea>
+
+                {% if task.status != 'Completed' %}
+                    <button type="submit" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;">Update Status</button>
+                {% endif %}
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p style="text-align: center; font-style: italic; color: #888;">No tasks assigned yet.</p>
+{% endif %}
+
+
+</div>
+
+{% endblock content %}
