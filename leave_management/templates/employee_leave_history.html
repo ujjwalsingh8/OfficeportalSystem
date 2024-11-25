@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block hero %}
+{% endblock hero %}
+
+
+{% block newpage %}
+    <form class="form-inline">
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'chnagepass' %}">Change Password</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+
+{% block content %}
+<div style='padding-top: 80px;'>
+{% if leave %}
+    <table style="width: 95%; border-collapse: collapse; margin: 30px; ">
+        <thead>
+            <tr style="background-color: #f2f2f2; text-align: left; font-weight: bold;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Leave Type</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Start Date</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">End Date</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Status</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Approved By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in leave %}
+                <tr style="background-color: {% if app.leave_status == 'Approved' %}#d4edda{% elif app.leave_status == 'Rejected' %}#f8d7da{% else %}#ffffff{% endif %};">
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ app.leave_type }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ app.start_date }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ app.end_date }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ app.leave_status }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+
+                        {% if app.leave_status == "Approved" %}
+                            {{ app.approved_by.username }}
+
+                        {% elif app.leave_status == "Rejected" %}
+                            {{ app.approved_by.username }}
+
+                        {% else %}
+                            Pending
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You have no leave applications.</p>
+{% endif %}
+</div>
+{% endblock content %}

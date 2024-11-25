@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block hero %}
+{% endblock hero %}
+
+{% block newpage %}
+    <form class="form-inline">
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'chnagepass' %}">Change Password</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+{% block content %}
+
+<div style='padding-top: 80px;'>
+<h2 style="text-align: center; color: #4CAF50; margin-top: 30px;">Pending Leave Applications({{pending}})</h2>
+
+{% if pending_leaves %}
+    <table style="width: 80%; margin: 20px auto; border-collapse: collapse; border: 1px solid #ddd; background-color: #f9f9f9;">
+        <thead>
+            <tr style="background-color: #4CAF50; color: white; text-align: left;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Employee</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Leave Type</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Start Date</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">End Date</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for leave in pending_leaves %}
+                <tr style="text-align: left; border-bottom: 1px solid #ddd;">
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ leave.user.username }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ leave.leave_type }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ leave.start_date }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ leave.end_date }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        <a href="{% url 'update_leave_status' leave.id 'approve' %}" style="color: white; background-color: #28a745; padding: 5px 10px; text-decoration: none; border-radius: 5px;">Approve</a>
+                        |
+                        <a href="{% url 'update_leave_status' leave.id 'reject' %}" style="color: white; background-color: #dc3545; padding: 5px 10px; text-decoration: none; border-radius: 5px;">Reject</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="text-align: center; color: #777;">No pending leave applications.</p>
+{% endif %}
+</div>
+{% endblock content %}

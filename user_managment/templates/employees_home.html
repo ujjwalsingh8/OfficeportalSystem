@@ -62,9 +62,9 @@
         {% endif %}
     {% endif %} {% endcomment %}
     <a class="btn btn-success" href="{% url 'update_profile' profile.id %}">Update Profile Photo</a>
-    {% comment %} <a class="btn btn-success" href="{% url 'leave' %}">Leave</a>
+     <a class="btn btn-success" href="{% url 'leave' %}">Leave</a>
     <a class="btn btn-success" href="{% url 'leavestatus' %}">Leave Status</a>
-    <a class="btn btn-success" href="{% url 'task_view' %}">New Task</a>
+    {% comment %} <a class="btn btn-success" href="{% url 'task_view' %}">New Task</a>
     <a class="btn btn-success" href="{% url 'daily_status' %}">Update Daily Status</a>
     <a class="btn btn-success" href="{% url 'daily_status_view' %}">Your Daily Status</a> {% endcomment %}
 </div>
