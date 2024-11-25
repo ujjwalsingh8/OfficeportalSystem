@@ -12,7 +12,7 @@ class Profile(models.Model):
     role = models.CharField(max_length=50, choices=ROLL_CHOICES)
     data_of_join = models.DateField(null=True, blank=True)
     salary = models.PositiveIntegerField(null=True, blank=True, default=0)
-    image = models.ImageField(upload_to='profile_image')
+    image = models.ImageField(upload_to='profile_image/', blank=True, null=True)
     work_hour = models.PositiveIntegerField(default=8)
     is_approved = models.BooleanField(default=False) 
 
