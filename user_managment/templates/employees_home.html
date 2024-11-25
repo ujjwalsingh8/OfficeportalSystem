@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block hero %}
+{% endblock hero %}
+
+{% block newpage %}
+    <form class="form-inline">
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'chnagepass' %}">Change Password</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+
+{% block content %}
+<div =style='padding-top: 80px;'>
+   <h1 style="text-align: center; color: #4CAF50; padding-top: 80px;">Employees</h1>
+   <div style="text-align: center; margin-top: 30px;">
+        <h4 style="font-size: 24px; color: #333;">{{ profile.user.username }}'s Profile</h4>
+            <img src="{{ profile.image.url }}" alt="Profile Image" width="70">
+
+        <div style="padding: 10px; background-color: #ffe6e6; margin: 20px auto; width: 50%; border-radius: 10px;">
+            <p style="font-size: 18px; color: #555; font-weight: bold;">Name: 
+                <span style="color: #000;">{{ profile.user.first_name }} {{ profile.user.last_name }}</span>
+            </p>
+
+            <p style="font-size: 18px; color: #555; font-weight: bold;">Email: 
+                <span style="color: #000;">{{ profile.user.email }}</span>
+            </p>
+
+            <p style="font-size: 18px; color: #555; font-weight: bold;">Role: 
+                <span style="color: #000;">{{ profile.role }}</span>
+            </p>
+
+            </div>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="message {{ message.tags }}"{% endif %}>
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+    {% if user.is_authenticated %}
+        {% if user_check_in %}
+            <form method="post" action="{% url 'check_out' %}">
+                {% csrf_token %}
+                <button class="btn btn-success mb-3"  type="submit">Check Out</button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'check_in' %}">
+                {% csrf_token %}
+                <button class="btn btn-success mb-3"  type="submit">Check In</button>
+            </form>
+        {% endif %}
+    {% endif %}
+    <a class="btn btn-success" href="{% url 'update_profile' profile.id %}">Update Profile Photo</a>
+    <a class="btn btn-success" href="{% url 'leave' %}">Leave</a>
+    <a class="btn btn-success" href="{% url 'leavestatus' %}">Leave Status</a>
+    <a class="btn btn-success" href="{% url 'task_view' %}">New Task</a>
+    <a class="btn btn-success" href="{% url 'daily_status' %}">Update Daily Status</a>
+    <a class="btn btn-success" href="{% url 'daily_status_view' %}">Your Daily Status</a> 
+</div>
+</div>
+{% endblock content %}

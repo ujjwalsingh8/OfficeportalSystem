@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/core.css' %}">
+    <title>Office Portal</title>
+</head>
+<body>
+
+{% block navwar %}
+<header style='position: relative;'>
+    <nav class="navbar navbar-expand-lg justify-content-between">
+        <a class="navbar-brand" href="{% url 'logout' %}">SkedGroup</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+        <a class="navbar-brand" href="#">About Us</a>
+        <a class="navbar-brand" href="#">Our Process</a>
+        <a class="navbar-brand" href="#">Contact Us</a>
+        
+        {% block newpage %}
+        <form class="form-inline">
+            <a class="btn btn-outline-light my-2 my-sm-0" href="{% url 'login' %}">Log In</a>
+        </form>
+        {% endblock newpage %}
+    </nav>
+</header>
+{% endblock navwar %}
+
+{% block hero %}
+<div class="hero">
+    <h1>Welcome To SkedGroup</h1>
+</div>
+
+<section id="about" class="section">
+    <h2>About Us</h2>
+    <p>We are an innovative IT company focused on delivering the best solutions to our clients worldwide. With a team of experts in software development, data analytics, and cybersecurity, we help businesses grow through technology.</p>
+</section>
+
+<section id="services" class="section">
+    <h2>Our Services</h2>
+    <div class="services">
+        <div>
+            <h3>Web Development</h3>
+            <p>Building dynamic, responsive websites and web applications tailored to your needs.</p>
+        </div>
+        <div>
+            <h3>Mobile App Development</h3>
+            <p>Creating high-quality mobile applications for both Android and iOS platforms.</p>
+        </div>
+        <div>
+            <h3>Cloud Solutions</h3>
+            <p>Providing scalable cloud solutions for efficient and secure data management.</p>
+        </div>
+    </div>
+</section>
+
+<section id="team" class="section">
+    <h2>Meet Our Team</h2>
+    <div class="team">
+        <div>
+            <h3>John Doe</h3>
+            <p>CEO & Founder</p>
+        </div>
+        <div>
+            <h3>Jane Smith</h3>
+            <p>Lead Developer</p>
+        </div>
+        <div>
+            <h3>Emily Johnson</h3>
+            <p>Project Manager</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="section">
+    <h2>Contact Us</h2>
+    <p>Email: info@itsolutions.com</p>
+    <p>Phone: +123 456 7890</p>
+    <p>Address: 123 Technology Park, Silicon Valley</p>
+</section>
+{% endblock hero %}
+
+{% block content %}
+
+{% endblock content %}
+
+{% block footer %}
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img class="footer-logo" src="/assets/theme1/footer-sked-logo.png" alt="Sked Group Logo">
+                <p>Innovative integration of digital solutions, business strategies, and cutting-edge technology to develop advanced software products.</p>
+                <div class="social-icons">
+                    <a href="https://linkedin.com" class="social-icon"><i class="cti-linkedin"></i></a>
+                    <a href="https://instagram.com" class="social-icon"><i class="cti-instagram"></i></a>
+                    <a href="https://facebook.com" class="social-icon"><i class="cti-facebook"></i></a>
+                    <a href="https://twitter.com" class="social-icon"><i class="cti-twitter"></i></a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/blogs">Blogs</a></li>
+                    <li><a href="/our_process">Our Process</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><a href="tel:+918818881807">+91 8818 8818 07</a></li>
+                    <li><a href="mailto:info@skedgroup.in">info@skedgroup.in</a></li>
+                    <li><address>142-A, New IT Park Building, Indore</address></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h3>Subscribe Us</h3>
+                <p>Subscribe for the latest updates and exclusive content.</p>
+                <form action="/subscribes" method="post">
+                    <input type="email" placeholder="Email" class="newslatter-input">
+                    <input type="submit" value="Subscribe" class="subscribe-btn">
+                </form>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock footer %}
+
+<script src="{% static 'core/js/jQuery.js' %}"></script>
+<script src="{% static 'core/js/popper.js' %}"></script>
+<script src="{% static 'core/js/bootstrap.js' %}"></script>
+</body>
+</html>
