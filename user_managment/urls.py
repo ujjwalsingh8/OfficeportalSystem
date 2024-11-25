@@ -19,6 +19,6 @@ urlpatterns = [
     path('update-profile/', views.update_profile, name='update'),
     path('delete/<int:id>/', views.delete_data, name='delete'),
     path('change-password/', views.change_pass, name='chnagepass'),
-    path('profile-update/', views.update_image, name='update_profile'),
+    path('profile-update/<int:id>', views.update_image, name='update_profile'),
 
 ]

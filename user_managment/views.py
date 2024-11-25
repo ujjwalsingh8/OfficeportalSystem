@@ -169,6 +169,7 @@ def employees_home(request):
 
 @login_required(login_url='login')
 def update_profile(request, id):
+    
     """This function is use for emaployee or manager update,
     Only access Admin"""
 
@@ -190,15 +191,15 @@ def update_profile(request, id):
 #----------image update--------
 
 @login_required(login_url='login')
-def update_image(request):
+def update_image(request, id):
+    profile = get_object_or_404(User, pk=id)
     if request.method == 'POST':
-        form = ProfileUpdate(request.POST, request.FILES, instance=request.user.profile)
+        form = ProfileUpdate(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('login')  # Redirect to the profile page (or wherever you want)
     else:
-        form = ProfileUpdate(instance=request.user.profile)
-
+        form = ProfileUpdate(instance=profile)
     return render(request, 'update_profile.html', {'form': form})
 
 

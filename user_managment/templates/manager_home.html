@@ -14,17 +14,13 @@
 <h1 style="text-align: center; color: #4CAF50; padding: 20px;">Manager</h1>
 <div style="text-align: center; margin-top: 30px;">
     <h4 style="font-size: 24px; color: #333;">{{ profile.user.username }}'s Profile</h4>
+    <img src="{{ profile.image.url }}" alt="Profile Image" width="80">    
 
     <div style="padding: 10px; background-color: #ffe6e6; margin: 20px auto; width: 50%; border-radius: 10px;">
         <p style="font-size: 18px; color: #555; font-weight: bold;">Name: 
             <span style="color: #000;">{{ profile.user.first_name }} {{ profile.user.last_name }}</span>
         </p>
-            {% if profile.user.profile_image %}
-                <img src="{{ profile.user.profile_image.url }}" alt="Profile Image" width="150">
-            {% comment %} {% else %} {% endcomment %}
-                {% comment %} <img src="{% static 'images/default.jpg' %}" alt="Default Profile Image" width="150"> {% endcomment %}
-            {% endif %}
-    
+            
         <p style="font-size: 18px; color: #555; font-weight: bold;">Email: 
             <span style="color: #000;">{{ profile.user.email }}</span>
         </p>
@@ -95,6 +91,7 @@
     {% endif %}
 {% endif %} {% endcomment %}
 
+<a class="btn btn-success" href="{% url 'update_profile' profile.id %}">Update Profile Photo</a>
 {% comment %} <a class="btn btn-success" href="{% url 'manager_task' %}">Assigne Task</a>
 <a class="btn btn-success" href="{% url 'manager_view' %}">View Task Update</a>
 <a class="btn btn-success" href="{% url 'daily_status_view' %}">Employee Daily Status</a> {% endcomment %}
