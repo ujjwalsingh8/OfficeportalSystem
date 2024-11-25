@@ -41,7 +41,7 @@
       </ul>
     {% endif %}
 
-{% comment %} 
+ 
     <p>
         <a href="{% url 'manager_leave_applications' %}" class="btn btn-primary" style="text-decoration: none;">View Pending Leave Applications{{pending}}</a>
     </p>
@@ -74,7 +74,7 @@
                 {% endfor %}
             </tbody>
         </table>
-    {% endif %} {% endcomment %}
+    {% endif %}
 
 {% comment %} 
 {% if user.is_authenticated %}

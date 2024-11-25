@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block hero %}
+{% endblock hero %}
+
+
+{% block newpage %}
+    <form class="form-inline">
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'chnagepass' %}">Change Password</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" style='color: #ffffff;' href="{% url 'logout' %}">LogOut</a>
+    </form>
+{% endblock newpage %}
+
+{% block content %}
+
+<div style='padding-top: 80px;'>
+<h2 style="text-align: center; color: black; padding: 20px;">Apply for Leave</h2>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}" style="padding: 10px; margin-bottom: 10px; border-radius: 4px;">
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="POST" style="width: 30%; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+    {% csrf_token %}
+    
+
+    <div style="margin-bottom: 15px;">
+    {{ form.start_date.label }}
+    <input type="text" name="start_date" placeholder="yyyy:mm:dd"/>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        {{ form.end_date.label }}:
+        <input type="text" name="end_date" placeholder="yyyy:mm:dd"/>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        {{ form.leave_type.label }}:
+        {{ form.leave_type }}
+    </div>
+
+    <input type="submit" value="Submit" style="background-color: #4CAF50; color: white; border: none; padding: 15px 32px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-top: 20px;">
+</form>
+</div>
+{% endblock content %}
