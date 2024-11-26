@@ -10,8 +10,8 @@ class Profile(models.Model):
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='main_user')
     role = models.CharField(max_length=50, choices=ROLL_CHOICES)
-    data_of_join = models.DateField(null=True, blank=True)
-    salary = models.PositiveIntegerField(null=True, blank=True, default=0)
+    data_of_join = models.DateTimeField(default=timezone.now)
+    basic_salary = models.PositiveIntegerField(null=True, blank=True, default=0)
     image = models.ImageField(upload_to='profile_image/', blank=True, null=True)
     work_hour = models.PositiveIntegerField(default=8)
     is_approved = models.BooleanField(default=False) 
@@ -21,4 +21,4 @@ class Profile(models.Model):
     
     @property
     def calculate_on_hour_billing(self):
-        return self.salary / (self.work_hour * 5 * 4)   #(here 4 is weeks in a month,  5 is weekdays in a week)
+        return self.basic_salary / (self.work_hour * 5 * 4)   #(here 4 is weeks in a month,  5 is weekdays in a week)

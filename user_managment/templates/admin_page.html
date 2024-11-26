@@ -46,6 +46,7 @@
                     <td style="text-align: center; padding: 8px;">
                         <!-- Action Buttons -->
                         <div style="display: flex; justify-content: center; gap: 10px;">
+                            <a class="btn btn-primary" href="{% url 'view_salary_pdf' data.id %}">Salary Slip</a>
                             <a class="btn btn-primary" href="{% url 'update' data.id %}">Update</a>
                             <a class="btn btn-danger" href="{% url 'delete' data.id %}">Delete</a>
                         </div>
@@ -65,6 +66,7 @@
                     <td style="text-align: center; padding: 8px;">
                         <!-- Action Buttons -->
                         <div style="display: flex; justify-content: center; gap: 10px;">
+                            <a class="btn btn-primary" href="{% url 'view_salary_pdf' data.id %}">Salary Slip</a>
                             <a class="btn btn-primary" href="{% url 'update' data.id %}">Update</a>
                             <a class="btn btn-danger" href="{% url 'delete' data.id %}">Delete</a>
                         </div>
@@ -76,10 +78,10 @@
 </div>
 
 <div style="display: flex; justify-content: center;">
-    <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'admin_approval' %}">Approve For Login</a>
+    <a class="btn btn-success gy-4" style="text-align: center; margin-top: 30px;" href="{% url 'admin_approval' %}">Approve For Login</a>
     <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'manager_task' %}">Assign Task</a>
     <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'manager_view' %}">View Task Update</a>
-    {% comment %} <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'daily_status_view' %}">Employee Daily Status</a> {% endcomment %}
+    <a class="btn btn-success" style="text-align: center; margin-top: 30px;" href="{% url 'daily_status_view' %}">Employee Daily Status</a>
 </div>
 
 <div>

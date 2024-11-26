@@ -33,7 +33,7 @@ class CheckInCheckOut(models.Model):
     updated_at = models.DateField(auto_now=True) 
 
     def __str__(self):
-        return f"{self.user.username} -  {self.check_out_time- self.check_in_time}"
+        return f"{self.user.username}"
 
     def calculate_total_hours(self):
         self.total_hours_worked = self.check_out_time - self.check_in_time

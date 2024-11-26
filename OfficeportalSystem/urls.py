@@ -23,7 +23,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('user_managment.urls')),
-    path('leave', include('leave_management.urls')),
-    path('task', include('task_management.urls')),
+    path('leave/', include('leave_management.urls')),
+    path('task/', include('task_management.urls')),
+    path('salary/', include('salary_management.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
