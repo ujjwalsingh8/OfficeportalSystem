@@ -32,10 +32,10 @@ class SignUpForm(UserCreationForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['role', 'salary']
+        fields = ['role', 'basic_salary', 'work_hour']
 
 
 class ProfileUpdate(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image']
+        fields = ['image', 'data_of_join']

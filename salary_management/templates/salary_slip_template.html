@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Slip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 20px;
+            margin-top: -10px;
+        }
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Company Name</h1>
+    <h2>Salary Slip</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Role</th>
+                <th>Basic Salary</th>
+                <th>Deduction</th>
+                <th>Total Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ employee.id }}</td>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.role }}</td>
+                <td>{{ employee.basic_salary }}</td>
+                <td>{{ employee.deduction }}</td>
+                <td>{{ employee.total_salary }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

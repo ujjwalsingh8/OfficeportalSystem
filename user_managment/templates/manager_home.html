@@ -92,6 +92,7 @@
 {% endif %}
 
 <a class="btn btn-success" href="{% url 'update_profile' profile.id %}">Update Profile Photo</a>
+<a class="btn btn-success" href="{% url 'view_salary_pdf' profile.id %}">View Salary Slip</a>
 <a class="btn btn-success" href="{% url 'manager_task' %}">Assigne Task</a>
 <a class="btn btn-success" href="{% url 'manager_view' %}">View Task Update</a>
 <a class="btn btn-success" href="{% url 'daily_status_view' %}">Employee Daily Status</a>
