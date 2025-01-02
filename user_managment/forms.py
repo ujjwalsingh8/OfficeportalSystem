@@ -22,7 +22,7 @@ class SignUpForm(UserCreationForm):
         
         return email
 
-    def save(self, commit=True):
+    def save(self):
         user = super().save(commit=False)
         user.username = self.cleaned_data['username'] 
         user.save()

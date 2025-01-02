@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, logout, login, update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Profile
 from leave_management.models import CheckInCheckOut
 from .forms import SignUpForm, ProfileUpdateForm, ProfileUpdate
@@ -39,7 +39,7 @@ def admin_approval(request):
         unapproved_users = Profile.objects.filter(is_approved=False)
 
         if request.method == 'POST':
-            user_ids = request.POST.getlist('approve')
+            user_ids = request.POST.get('approve')
             Profile.objects.filter(id__in=user_ids).update(is_approved=True)
             messages.success(request, "User have been approved.")
 
@@ -59,27 +59,22 @@ def sign_in(request):
 
                 user = User.objects.get(username=username) 
                 user = authenticate(username=username, password=passw)
-
-                try:
-                    if user is not None:
-                        if user.is_superuser:
-                            login(request, user)
-                            messages.success(request, "Admin login successful!")
-                            return redirect('admin_home')  
-
-                        elif not user.main_user.is_approved:
-                            messages.warning(request, "Your account is pending approval from an admin.")
-                            return redirect('login') 
-
+                if user is not None:
+                    if user.is_superuser:
                         login(request, user)
-                        messages.success(request, "Login successful!")
-                        return redirect_user(user)
-                    
-                    else:
-                        messages.error(request, "Incorrect password. Please try again.")
+                        messages.success(request, "Admin login successful!")
+                        return redirect('admin_home')  
 
-                except User.DoesNotExist:
-                    messages.error(request, "Email ID does not exist. Please check and try again.")
+                    elif not user.main_user.is_approved:
+                        messages.warning(request, "Your account is pending approval from an admin.")
+                        return redirect('login') 
+
+                    login(request, user)
+                    messages.success(request, "Login successful!")
+                    return redirect_user(user)
+                
+                else:
+                    messages.error(request, "Incorrect password. Please try again.")             
         else:
             form = AuthenticationForm()
         return render(request, 'login.html', {'form':form})
@@ -141,15 +136,17 @@ def admin_home(request):
 #--------manager admin -------------
 @login_required(login_url='login')
 def manager_home(request):
-    """This function is only for Manager"""
-
+    """
+    This function is only for Manager page
+    """
     if request.user.main_user.role == 'Manager':
         user = request.user
         profile = get_object_or_404(Profile, user=user)
-        
+        main_id = user
+        ip = request.session.get('ip', 0)
         user_check_in = CheckInCheckOut.objects.filter(user=request.user, check_out_time__isnull=True).exists()
 
-        return render(request, 'manager_home.html', {'profile': profile, 'user_check_in': user_check_in})
+        return render(request, 'manager_home.html', {'profile': profile, 'user_check_in': user_check_in, 'main_id':main_id, 'ip':ip})
     else:
         return redirect('login')
     
@@ -157,28 +154,31 @@ def manager_home(request):
 #----------employee home---------
 @login_required(login_url='login') 
 def employees_home(request):
-    # This function is only for employees
-
+    '''
+    This function is only for employees page
+    '''
     if request.user.main_user.role == 'Employees':
         user = request.user
         profile = get_object_or_404(Profile, user=user)
+        main_id = user
+        ip = request.session.get('ip', 0)
         
         user_check_in = CheckInCheckOut.objects.filter(user=request.user, check_out_time__isnull=True).exists()
-        return render(request, 'employees_home.html', {'profile': profile, 'user_check_in': user_check_in})
+        return render(request, 'employees_home.html', {'profile': profile, 'user_check_in': user_check_in, 'main_id':main_id, 'ip':ip})
 
     else:
         return redirect('login')
-    
-#------------update-------------
+
+
+#------------update----------------
 
 @login_required(login_url='login')
 def update_profile(request, id):
-    
-    """This function is use for emaployee or manager update,
-    Only access Admin"""
-
+    """
+    This function is use for emaployee or manager update,
+    Only can access Admin
+    """
     if request.user.is_superuser:
-        number = get_object_or_404(User, pk=id)
         profile_obj = Profile.objects.get(user__id=id)
         if request.method == 'POST':
             data = ProfileUpdateForm(request.POST, instance=profile_obj)
@@ -201,7 +201,7 @@ def update_image(request, id):
         form = ProfileUpdate(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to the profile page (or wherever you want)
+            return redirect('login') 
     else:
         form = ProfileUpdate(instance=profile)
     return render(request, 'update_profile.html', {'form': form})

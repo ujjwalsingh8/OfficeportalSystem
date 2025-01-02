@@ -1,13 +1,11 @@
-from django.db.models import Q
-from django.db.models import F, ExpressionWrapper, DurationField, Sum
+from django.db.models import F, Sum
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from django.core.mail import send_mail, EmailMessage
-from django.shortcuts import render, HttpResponse
-from django.utils import timezone
+from django.core.mail import EmailMessage
+from django.shortcuts import HttpResponse
 from .models import SalarySlips
 from leave_management.models import CheckInCheckOut
 from weasyprint import HTML
@@ -27,19 +25,12 @@ def calculate_salary(user):
         check_out_time__lt = datetime(current_date.year, current_date.month, 1)
     )
 
-    # Annotate the queryset with the duration difference (check_out_time - check_in_time)
-
     queryset = total_user_hour.annotate(
-        worked_duration=ExpressionWrapper(
-            F('check_out_time') - F('check_in_time'),
-            output_field=DurationField()
-        )
-    )
-    # Now, sum the total of the worked durations across the queryset
+        worked_duration=F('check_out_time') - F('check_in_time'))
 
     total_worked_duration = queryset.aggregate(
-        total_duration_sum=Sum('worked_duration')
-    )
+        total_duration_sum=Sum('worked_duration'))
+    
     total_duration_sum = total_worked_duration['total_duration_sum']
 
     if total_duration_sum:
@@ -51,12 +42,12 @@ def calculate_salary(user):
     
     return total_salary_hour if total_salary_hour else 0
 
-
-def generate_salary_pdf(user, id):
+login_required(login_url='login')
+def generate_salary_pdf(user, id):                                              
     user = User.objects.get(id=id)
     basic_salary = user.main_user.basic_salary
     calulated_salary = calculate_salary(user)
-    # Example data for an employee (you can replace this with actual data from your database)
+
     employee = {
         'id': user.id,
         'name': user,
@@ -86,7 +77,7 @@ def generate_salary_pdf(user, id):
     
     subject = f"Your Salary Slip for {current_date.month}-{current_date.year}"
 
-    message = f"{user.get_full_name()},\n\nPlease find attached your salary slip for the month {current_date.month}-{current_date.year}." 
+    message = f"{user.get_full_name()},\n\nYour salary slip for this month {current_date.month}-{current_date.year}." 
 
     email = EmailMessage(
         subject=subject,
