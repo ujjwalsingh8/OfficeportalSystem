@@ -16,7 +16,9 @@
    <h1 style="text-align: center; color: #4CAF50; padding-top: 80px;">Employees</h1>
    <div style="text-align: center; margin-top: 30px;">
         <h4 style="font-size: 24px; color: #333;">{{ profile.user.username }}'s Profile</h4>
+        {% if profile.image %} 
             <img src="{{ profile.image.url }}" alt="Profile Image" width="70">
+        {% endif %} 
 
         <div style="padding: 10px; background-color: #ffe6e6; margin: 20px auto; width: 50%; border-radius: 10px;">
             <p style="font-size: 18px; color: #555; font-weight: bold;">Name: 
@@ -56,7 +58,7 @@
         {% endif %}
     {% endif %}
     <a class="btn btn-success" href="{% url 'update_profile' profile.id %}">Update Profile Photo</a>
-    <a class="btn btn-success" href="{% url 'view_salary_pdf' profile.id %}">View Salary Slip</a>
+    <a class="btn btn-success" href="{% url 'view_salary_pdf' main_id.id %}">View Salary Slip</a>
     <a class="btn btn-success" href="{% url 'leave' %}">Leave</a>
     <a class="btn btn-success" href="{% url 'leavestatus' %}">Leave Status</a>
     <a class="btn btn-success" href="{% url 'task_view' %}">New Task</a>

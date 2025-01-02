@@ -119,7 +119,7 @@ def daily_status(request):
 
 @login_required(login_url='login')
 def daily_status_view(request):
-    if request.user.is_superuser or request.user.main_user.role == 'Manager' or request.user.main_user.role == 'Employees':
+    if request.user.is_superuser or request.user.main_user.role == 'Employees':
         status = DailyStatus.objects.filter(user=request.user)        
 
     elif request.user.main_user.role == 'Manager':
